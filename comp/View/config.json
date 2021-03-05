@@ -1,0 +1,13 @@
+{
+    "name": "布局组件",
+    "staticProps": [
+
+    ],
+    "defaultStyles": {
+        "width": "100%",
+        "height": "120px"
+    },
+    "defaultProps": {
+
+    }
+}

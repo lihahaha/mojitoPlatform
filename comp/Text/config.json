@@ -1,0 +1,15 @@
+{
+    "name": "文本组件",
+    "staticProps": [
+        {
+            "name": "文本",
+            "prop": "text"
+        }
+    ],
+    "defaultStyles": {
+
+    },
+    "defaultProps": {
+        "text": "默认文本"
+    }
+}
