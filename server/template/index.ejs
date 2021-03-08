@@ -1,0 +1,14 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title><%= title %></title>
+    <link rel="shortcut icon" href="/template/favicon.ico"/>
+    <script>window.comp = {};</script>
+</head>
+<body>
+<div id="<%= id %>"></div>
+</body>
+<% js.forEach(function(url) { %>
+<script type="text/javascript" src="<%- url %>"></script>
+<% }); %>
+</html>

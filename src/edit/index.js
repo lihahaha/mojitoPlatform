@@ -1,14 +1,18 @@
-import { Headers } from '../global';
+/**
+ * @description 编辑器打包总入口
+ */
+import { Headers, DOMIN } from '../global';
 import React from 'react';
 import ReactDom from 'react-dom';
-import Edit from './edit';
+import Board from './board';
 import App from '../reducer';
-import * as event from './event';
-import './style/index.less';
+import 'antd/dist/antd.less';
+import './style/antd.less';
 
 window.ENV = 'edit';
 
-fetch(window.HOST + '/loadPage', {
+// 拉取当前页面的JSON配置后再渲染编辑器
+fetch(DOMIN + '/loadPage', {
     method: 'POST',
     headers: Headers.json
 }).then(response => response.json()).then(res => {
@@ -18,10 +22,9 @@ fetch(window.HOST + '/loadPage', {
     }
     ReactDom.render(
         <App
-            init={res.data}
-            event={event}
+            tree={res.data}
         >
-            <Edit />
+            <Board />
         </App>
         , document.getElementById('edit')
     );

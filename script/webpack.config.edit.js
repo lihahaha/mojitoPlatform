@@ -1,27 +1,37 @@
+/**
+ * @description 编辑器打包配置
+ */
 const path = require('path');
 const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-var htmlwp = require('html-webpack-plugin');
+// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const { CONFIG } = require('../config');
 
-const isDev = process.argv.indexOf('-p') === -1;
+const isDev = process.argv.indexOf('-dev') !== -1;
+
+const cssFillPath = [
+    path.join(process.cwd(), './src/edit/style/antd.less'),
+    path.join(process.cwd(), './node_modules/')
+];
 
 const config = {
     entry: {
-        edit: './src/edit/index.js'
+        main: './src/edit/index.js'
     },
     output: {
-        path: path.join(process.cwd(), './static/edit'),
-        publicPath: !isDev ? 'http://127.0.0.1:1235/edit' : undefined,
+        path: path.join(process.cwd(), './.build/edit'),
+        publicPath: !isDev ? `${CONFIG.HOST}:${CONFIG.PORT}/edit` : undefined,
         filename: '[name].js',
         chunkFilename: '[name].js'
     },
     devServer: {
         compress: false,
-        port: 9000,
+        port: CONFIG.DEV_SERVER_PORT,
         inline: true,
         open: false,
         hot: true
     },
+    // 公用的代码放到commons.js里
     optimization: {
         splitChunks: {
             cacheGroups: {
@@ -38,15 +48,42 @@ const config = {
         rules: [
             {
                 test: /\.(gif|jpe?g|png|svg)$/,
-                use: {
+                use: [{
                     loader: 'file-loader'
-                }
+                }]
             },
             {
                 test: /\.(css|less)$/,
+                include: cssFillPath,
                 use: [
                     'style-loader',
-                    'css-loader?minimize=' + !isDev,
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            minimize: !isDev
+                        }
+                    },
+                    {
+                        loader: 'less-loader',
+                        options: {
+                            javascriptEnabled: true
+                        }
+                    }
+                ]
+            },
+            {
+                test: /\.(css|less)$/,
+                exclude: cssFillPath,
+                use: [
+                    'style-loader',
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            minimize: !isDev,
+                            modules: true,
+                            localIdentName: isDev ? '[path]-[local]' : '[hash:base64:6]'
+                        }
+                    },
                     'less-loader'
                 ]
             },
@@ -70,14 +107,13 @@ const config = {
             }
         ]
     },
-    plugins: [
-        new CleanWebpackPlugin(),
-        new webpack.HotModuleReplacementPlugin(),
-        new htmlwp({
-            filename: 'index.html',
-            template: path.join(__dirname, '../server/template/edit.html')
-        })
-    ],
+    plugins: ([
+        new CleanWebpackPlugin()
+    ]).concat(isDev ? [
+        new webpack.HotModuleReplacementPlugin()
+    ] : [
+        // new BundleAnalyzerPlugin()
+    ]),
     resolve: {
         extensions: [
             '.js',
@@ -85,7 +121,7 @@ const config = {
         ]
     },
     mode: isDev ? 'development' : 'production',
-    devtool: isDev ? 'source-map' : 'source-map'
+    devtool: 'source-map'
 };
 
 module.exports = config;
