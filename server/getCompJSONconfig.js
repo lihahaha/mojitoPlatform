@@ -18,7 +18,7 @@ const getCompJSONconfig = () => {
             cmpMap[item] = config;
         }
     });
-
+    console.log(cmpMap);
     return cmpMap;
 };
 

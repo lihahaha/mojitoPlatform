@@ -30,7 +30,7 @@ const Page = ({
         // 遍历每个子节点
         for (let i = 0; i < children.length; i++) {
             const comp = await compileJson2Comp(children[i]);
-
+            console.log(comp);
             res.push(comp);
         }
 
@@ -41,6 +41,7 @@ const Page = ({
     const compileJson2Comp = async ({ el, name, hook, style, props, children }) => {
         // 首先获取当前组件的构造函数
         let Comp = await loadAsync(name, hook);
+        console.log(Comp);
 
         let editEvent = {};
 
