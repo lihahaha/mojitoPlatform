@@ -1,4 +1,22 @@
-// 此文件遵循CSS module
+@import './var.less';
+// 此文件仅遵循CSS module编译
+.main {
+    overflow-x: hidden;
+    min-width: 700px;
+    height: 100vh;
+}
+
+.mainSider {
+    overflow: auto;
+    height: 50%;
+
+    &.menu {
+        overflow-x: hidden;
+        border-bottom: @common-border;
+        border-bottom-width: 2px;
+    }
+}
+
 .publicTextOverflow {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -6,35 +24,89 @@
 }
 
 .hoverIn {
-    outline-offset: -1.5px;
-    outline: 1.5px solid #40a9ff;
+    outline-offset: -3px;
+    outline: 3px solid @primary-color;
 }
 
 .dragIn {
-    outline-offset: -3px;
-    outline: 3px solid #03d000;
+    outline-offset: -5px;
+    outline: 5px solid #03d000;
 }
 
 .chooseIn {
-    outline-offset: -3px;
-    outline: 3px solid #40a9ff;
+    outline-offset: -5px;
+    outline: 5px solid @primary-color;
 }
 
 .header {
     height: 50px !important;
-    padding: 0 20px !important;
+    padding: 0 !important;
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    background-color: #fff !important;
+    border-left: @common-border;
+    border-bottom: @common-border;
+    z-index: 1;
+
+    .headerLeft {
+        flex: 1;
+        display: flex;
+        margin-left: 15px;
+    }
+
+    .headerBtn {
+        margin-right: 15px;
+    }
+
+    .headerSlider {
+        width: 200px;
+    }
 }
 
 .optionSlide {
+    flex: 1;
+}
+
+.paintingLayout {
     height: calc(100% - 50px);
+}
+
+.paintingWrap {
+    flex: 1;
+    overflow: auto;
+    padding: 30px;
+    text-align: center;
+
+    &::-webkit-scrollbar {
+        width: 7px;
+        height: 7px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 3.5px;
+    }
+
+    .paintingBox {
+        display: inline-block;
+        overflow: hidden;
+        box-shadow: @common-shadow;
+        background-color: #fff;
+    }
+
+    .root {
+        overflow: hidden;
+        width: 1920px;
+        transform-origin: 0 0;
+        min-height: calc(100% - 30px);
+        padding-bottom: 300px;
+        background-color: #fff;
+    }
 }
 
 .tabPane {
     overflow: auto;
-    height: calc(100% - 44.6px);
+    height: calc(100vh - 95px);
     padding: 10px 0;
     background-color: #fff !important;
 }
@@ -47,7 +119,7 @@
 }
 
 .compName {
-    font-weight: bold;
+    color: @primary-color;
     margin-left: 10px;
     .publicTextOverflow();
 }

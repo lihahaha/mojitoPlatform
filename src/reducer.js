@@ -10,21 +10,21 @@ const reducer = (state, action) => {
     switch (action.type) {
         // 更新页面配置树
         case 'UPDATE_TREE':
+            var newTree = JSON.parse(JSON.stringify(action.payload));
+
+            if (action.isPoint) {
+                newTree.isPoint = action.isPoint;
+            }
+
             return {
                 ...state,
-                tree: action.payload
-            };
-        // 更新组件菜单
-        case 'EDIT_MENU':
-            return {
-                ...state,
-                menu: action.payload
+                tree: newTree
             };
         // 编辑选中的组件配置
         case 'EDIT_CHOOSE_CMP':
             return {
                 ...state,
-                ...action.payload
+                choose: action.payload
             };
         // 切换操作面板tab
         case 'EDIT_CHANGE_TABNAV':
@@ -32,30 +32,45 @@ const reducer = (state, action) => {
                 ...state,
                 tabIndex: action.payload
             };
-        case 'VV':
+        // 鼠标按下操作蒙版后，设置当前操作的组件，在root监听鼠标移动事件来改变组件容器的宽高、定位
+        case 'EDIT_COMP_BOX':
             return {
                 ...state,
-                vv: action.payload
+                changeCompBox: action.payload
             };
         default:
             return state;
     }
 };
 
-const App = ({ tree, children }) => {
+const App = ({ tree, menu, children }) => {
+    const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
     // 预览页面只需要tree，不注入编辑器内的reducer
     const [state, dispatch] = useReducer(reducer, Object.assign(
         {
-            tree            // 页面配置JSON树
-        }, window.ENV === 'edit' && {
+            tree: JSON.parse(JSON.stringify(tree))           // 页面配置JSON树
+        }, window.ENV === 'edit' ? {
+            menu: JSON.parse(JSON.stringify(menu)),
             choose: null,   // 当前选中的组件配置
-            tabIndex: 0,    // 属性面板tab索引
-            optionArr: [],  // 属性面板样式配置列表
-            propsArr: []    // 属性面板自定义属性配置列表
-        }
+            // changeCompBox: {
+            //     el: string,    组件容器id
+            //     key: string,   操作按下的是哪个蒙版，取自complie.js中的changeTabList数组
+            //     e: Event,     鼠标按下后的事件对象
+            //     current: {
+            //           width: number,
+            //           height: number,
+            //           position: {
+            //               left: number,
+            //               top: number
+            //           }
+            //     }
+            // },
+            changeCompBox: null,
+            tabIndex: 0    // 属性面板tab索引
+        } : {}
     ));
 
-    return <Provider value={{ state, dispatch }}>
+    return <Provider value={{ state, dispatch, forceUpdate }}>
         {children}
     </Provider>;
 };

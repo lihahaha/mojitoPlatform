@@ -6,23 +6,34 @@ import React from 'react';
 import ReactDom from 'react-dom';
 import Board from './board';
 import App from '../reducer';
-import 'antd/dist/antd.less';
+import { message } from 'antd';
 import './style/antd.less';
 
 window.ENV = 'edit';
 
-// 拉取当前页面的JSON配置后再渲染编辑器
-fetch(DOMIN + '/loadPage', {
-    method: 'POST',
-    headers: Headers.json
-}).then(response => response.json()).then(res => {
-    if (res.error !== 0) {
-        console.warn(res.msg);
+// 拉取当前页面的JSON配置、组件菜单后再渲染编辑器
+Promise.all([
+    fetch(DOMIN + '/loadPage', {
+        method: 'POST',
+        headers: Headers.json
+    }).then(response => response.json()),
+    fetch(DOMIN + '/getCompMenu', {
+        method: 'POST',
+        headers: Headers.json
+    }).then(response => response.json())
+]).then(([resPage, resMenu]) => {
+    if (resPage.error !== 0) {
+        message.error(resPage.msg);
+        return;
+    }
+    if (resMenu.error !== 0) {
+        message.error(resMenu.msg);
         return;
     }
     ReactDom.render(
         <App
-            tree={res.data}
+            tree={resPage.data}
+            menu={resMenu.data}
         >
             <Board />
         </App>

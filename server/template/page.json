@@ -1,97 +1,111 @@
 [
   {
-    "el": "bc1",
     "hook": "http://localhost:1235/comp/View.js",
     "name": "View",
-    "props": {},
     "style": {
-      "width": "100%",
-      "height": "220px",
-      "backgroundColor": "",
-      "backgroundSize": ""
+      "position": "absolute",
+      "width": "1200px",
+      "height": "702px",
+      "backgroundColor": "#00d0b4",
+      "left": "278px",
+      "top": "563px",
+      "overflow": "hidden"
     },
+    "props": {},
+    "el": "wc1",
     "children": [
       {
-        "el": "bc1-1",
         "hook": "http://localhost:1235/comp/Text.js",
         "name": "Text",
-        "props": {
-          "text": "这是文本组件鸭~",
-          "color": "red"
-        },
         "style": {
-          "color": "#fff",
-          "fontSize": "20px",
-          "textAlign": "center",
-          "marginBottom": "20px",
-          "width": "200px"
-        }
-      },
-      {
-        "el": "bc1-2",
-        "hook": "http://localhost:1235/comp/Image.js",
-        "name": "Image",
-        "props": {
-          "src": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1588512426345&di=95d871fc57d2057218028877fb544a07&imgtype=0&src=http%3A%2F%2Ffile02.16sucai.com%2Fd%2Ffile%2F2014%2F0829%2F372edfeb74c3119b666237bd4af92be5.jpg",
-          "link": "https://www.douyu.com"
-        },
-        "style": {
-          "width": "140px",
+          "position": "relative",
+          "width": "522px",
           "height": "100px",
-          "marginLeft": "auto",
-          "marginRight": "auto",
-          "marginTop": "0px"
-        }
-      },
-      {
-        "hook": "http://localhost:1235/comp/Text.js",
-        "name": "Text",
-        "style": {
-          "width": "150px"
+          "left": "227px",
+          "top": "424px"
         },
         "props": {
-          "text": "默认文本",
-          "fontSize": "20px",
-          "lineHeight": "30px",
-          "textAlign": "center",
-          "color": "#000"
+          "text": "默认文本1",
+          "fontSize": "40px",
+          "lineHeight": "80px",
+          "textAlign": "center"
         },
-        "el": "bc1-3"
-      }
-    ]
-  },
-  {
-    "el": "bc2",
-    "hook": "http://localhost:1235/comp/View.js",
-    "name": "View",
-    "props": {},
-    "style": {
-      "width": "50%",
-      "height": "100px",
-      "backgroundColor": "pink",
-      "marginLeft": "auto",
-      "marginRight": "auto"
-    },
-    "children": [
-      {
-        "hook": "http://localhost:1235/comp/Text.js",
-        "name": "Text",
-        "style": {},
-        "props": {},
-        "el": "bc2-1"
+        "el": "wc1-1"
       },
       {
         "hook": "http://localhost:1235/comp/View.js",
         "name": "View",
         "style": {
-          "width": "60%",
-          "height": "40px",
-          "backgroundColor": "red"
+          "position": "relative",
+          "width": "865px",
+          "height": "152px",
+          "backgroundColor": "#999",
+          "left": "65px",
+          "top": "92px",
+          "overflow": ""
         },
         "props": {},
-        "el": "bc2-2",
-        "children": []
+        "el": "wc1-2",
+        "children": [
+          {
+            "hook": "http://localhost:1235/comp/Image.js",
+            "name": "Image",
+            "style": {
+              "position": "relative",
+              "width": "167px",
+              "height": "139px",
+              "marginLeft": "auto",
+              "marginRight": "auto",
+              "marginTop": "0px"
+            },
+            "props": {
+              "src": "http://r.photo.store.qq.com/psb?/V14dALyK4PrHuj/h50SMf97hSy.BJlJw31fagrw.NUaJD83gvydmoGN77w!/r/dLgAAAAAAAAA"
+            },
+            "el": "wc1-2-1"
+          }
+        ]
       }
     ]
+  },
+  {
+    "hook": "http://localhost:1235/comp/View.js",
+    "name": "View",
+    "style": {
+      "position": "relative",
+      "width": "100%",
+      "height": "442px",
+      "backgroundImage": "https://shark2.douyucdn.cn/front-publish/butterfly-comp-diy-master/assets/sleep_f06043.png",
+      "backgroundSize": "contain",
+      "backgroundRepeat": "no-repeat"
+    },
+    "props": {},
+    "el": "wc2"
+  },
+  {
+    "hook": "http://localhost:1235/comp/Text.js",
+    "name": "Text",
+    "style": {
+      "position": "relative",
+      "width": "70px"
+    },
+    "props": {
+      "text": "默认文本",
+      "fontSize": "12px",
+      "lineHeight": "16px",
+      "textAlign": "center"
+    },
+    "el": "wc3",
+    "hide": true
+  },
+  {
+    "hook": "http://localhost:1235/comp/View.js",
+    "name": "View",
+    "style": {
+      "position": "relative",
+      "width": "100%",
+      "height": "120px"
+    },
+    "props": {},
+    "el": "wc4"
   }
 ]

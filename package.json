@@ -7,7 +7,9 @@
         "server": "node ./server/index.js",
         "build:edit": "webpack --progress --config ./script/webpack.config.edit.js",
         "build:page": "webpack --progress --config ./script/webpack.config.page.js",
-        "build:comp": "webpack --progress --config ./script/webpack.config.comp.js"
+        "build:comp": "webpack --progress --config ./script/webpack.config.comp.js",
+        "dev:server": "node ./server/index.js -dev",
+        "dev:edit": "webpack-dev-server --config ./script/webpack.config.edit.js -dev"
     },
     "dependencies": {
         "@babel/core": "^7.7.4",
@@ -20,6 +22,7 @@
         "@babel/preset-react": "^7.7.4",
         "@babel/runtime-corejs2": "^7.7.4",
         "antd": "^4.2.0",
+        "antd-dayjs-webpack-plugin": "^1.0.0",
         "babel-eslint": "^10.0.3",
         "babel-loader": "^8.0.6",
         "body-parser": "^1.19.0",
