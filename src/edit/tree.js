@@ -5,6 +5,7 @@ import React, { useContext, useCallback, useMemo } from 'react';
 import storeContext from '../context';
 import { searchTree, EnumEdit } from './searchTree';
 import { Tree } from 'antd';
+import style from './style/index.less';
 
 const PageTree = ({
     handleClick, checkedKeysList, expandedKeys
@@ -15,6 +16,11 @@ const PageTree = ({
     // 选中某个节点
     const selectNode = useCallback(([el], e) => {
         handleClick(e.node.key);
+        const selectCompDom = document.querySelector(`#${e.node.key}`);
+        const paintingWrapDom =  document.querySelector(`.${style.paintingWrap}`);
+        const nextScrollTop = selectCompDom.getBoundingClientRect().top - 50 - 30 + paintingWrapDom.scrollTop;
+
+        paintingWrapDom.scrollTop = nextScrollTop;
     }, []);
 
     // 显示隐藏某个节点（隐藏后编译时会忽略此组件以及其包裹的所有子孙组件，但在编辑器内扔可为其配置属性）
@@ -44,7 +50,7 @@ const PageTree = ({
     const fixTreeKey = (children) => {
         for (let child of children) {
             child.key = child.el;
-            child.title = state.menu[child.name].name + '(' + child.el.slice(2) + ')';
+            child.title = state.menu[child.name].name + '(' + child.el.replace(/^wc/, '') + ')';
             if (!child.hide) {
                 checkedKeysList.current.add(child.key);
             }

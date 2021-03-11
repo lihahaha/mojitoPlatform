@@ -1,5 +1,5 @@
 {
-    "name": "图片组件",
+    "name": "图片",
     "staticProps": [
         {
             "name": "点击链接",
@@ -12,13 +12,15 @@
     ],
     "defaultStyles": {
         "position": "relative",
-        "width": "100px",
-        "height": "100px",
+        "width": "180px",
+        "height": "180px",
         "marginLeft": "auto",
         "marginRight": "auto",
         "marginTop": "0px"
     },
     "defaultProps": {
-        "src": "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3363295869,2467511306&fm=26&gp=0.jpg"
-    }
+        "src": "http://r.photo.store.qq.com/psb?/V14dALyK4PrHuj/h50SMf97hSy.BJlJw31fagrw.NUaJD83gvydmoGN77w!/r/dLgAAAAAAAAA"
+    },
+    "hasChild": false,
+    "canResizeByMouse": true
 }
