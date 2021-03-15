@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const compression = require('compression');
 const { CONFIG } = require('../config');
 const getCompJSONconfig = require('./getCompJSONconfig');
+const getCompUrlHook = require('./getCompUrlHook');
 const { getPageJSON, setPageJSON } = require('./opPageJSON');
 
 const app = express();
@@ -30,19 +31,24 @@ app.all('*', (req, res, next) => {
 
 // 预览页面路由模板
 app.get('/page', (req, res) => {
+    const { debug_comp } = req.query;
+    const commonsDebug = debug_comp ? [`${CONFIG.HOST}:${CONFIG.DEV_SERVER_PORT}/commons-dev.js`] : [];
+
     res.render(path.join(__dirname, './template/index.ejs'), {
         id: 'app',
         title: '预览页',
         js: [
             `${CONFIG.HOST}:${CONFIG.PORT}/page/commons.js`,
-            `${CONFIG.HOST}:${CONFIG.PORT}/page/main.js`
+            `${CONFIG.HOST}:${CONFIG.PORT}/page/main.js`,
+            ...commonsDebug
         ]
     });
 });
 
 // 编辑器路由模板
 app.get('/edit', (req, res) => {
-    const { debug } = req.query;
+    const { debug, debug_comp } = req.query;
+    const commonsDebug = debug_comp ? [`${CONFIG.HOST}:${CONFIG.DEV_SERVER_PORT}/commons-dev.js`] : [];
 
     res.render(path.join(__dirname, './template/index.ejs'), {
         id: 'edit',
@@ -52,7 +58,8 @@ app.get('/edit', (req, res) => {
             `${CONFIG.HOST}:${CONFIG.DEV_SERVER_PORT}/main.js`
         ] : [
             `${CONFIG.HOST}:${CONFIG.PORT}/edit/commons.js`,
-            `${CONFIG.HOST}:${CONFIG.PORT}/edit/main.js`
+            `${CONFIG.HOST}:${CONFIG.PORT}/edit/main.js`,
+            ...commonsDebug
         ]
     });
 });
@@ -71,7 +78,10 @@ app.post('/loadPage', (req, res) => {
     res.send({
         error: 0,
         msg: 'succ',
-        data: getPageJSON()
+        data: {
+            tree: getPageJSON(),
+            hook: getCompUrlHook()
+        }
     });
 });
 
