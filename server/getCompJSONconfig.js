@@ -15,10 +15,10 @@ const getCompJSONconfig = () => {
         if (stat.isDirectory()) {
             const config = JSON.parse(fs.readFileSync(path.join(compDir, item, './config.json'), 'utf-8'));
 
-            cmpMap[item] = config;
+            cmpMap[item] = Object.assign(config, { compName: item });
         }
     });
-    console.log(cmpMap);
+
     return cmpMap;
 };
 

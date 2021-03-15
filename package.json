@@ -3,7 +3,7 @@
     "version": "0.0.1",
     "scripts": {
         "start": "npm run build && npm run server",
-        "build": "concurrently \"npm run build:edit\" \"npm run build:comp\"",
+        "build": "concurrently \"npm run build:edit\" \"npm run build:page\" \"npm run build:comp\"",
         "server": "node ./server/index.js",
         "build:edit": "webpack --progress --config ./script/webpack.config.edit.js",
         "build:page": "webpack --progress --config ./script/webpack.config.page.js",

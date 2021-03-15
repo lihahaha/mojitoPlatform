@@ -1,51 +1,24 @@
+/**
+ * @description 预览页打包配置
+ */
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const searchComp = require('./searchComponent');
+const { CONFIG } = require('../config');
 
-const isDev = process.argv.indexOf('-p') === -1;
+const isDev = process.argv.indexOf('-dev') !== -1;
 
 const config = {
-    module: {
-        rules: [{
-            test: /\.(gif|jpe?g|png|svg)$/,
-            use: {
-                loader: 'file-loader'
-            }
-        },
-        {
-            test: /\.(css|less)$/,
-            use: [
-                'style-loader',
-                'css-loader?minimize=' + !isDev,
-                'less-loader'
-            ]
-        }]
-    },
-    plugins: [
-        new CleanWebpackPlugin()
-    ],
-    resolve: {
-        extensions: [
-            '.js',
-            '.jsx'
-        ]
-    },
-    mode: isDev ? 'development' : 'production',
-    devtool: isDev ? 'source-map' : 'source-map'
-};
-
-const configBase = {
-    ...config,
     entry: {
-        sdk: './src/page/index.js'
+        main: './src/page/index.js'
     },
     output: {
-        path: path.join(process.cwd(), './static/dist'),
-        publicPath: 'http://127.0.0.1:1235/dist',
+        path: path.join(process.cwd(), './.build/page'),
+        publicPath: !isDev ? `${CONFIG.HOST}:${CONFIG.PORT}/page` : undefined,
         filename: '[name].js',
         chunkFilename: '[name].js'
     },
+    // 公用的代码放到commons.js里
     optimization: {
         splitChunks: {
             cacheGroups: {
@@ -60,7 +33,27 @@ const configBase = {
     },
     module: {
         rules: [
-            ...config.module.rules,
+            {
+                test: /\.(gif|jpe?g|png|svg)$/,
+                use: [{
+                    loader: 'file-loader'
+                }]
+            },
+            {
+                test: /\.(css|less)$/,
+                use: [
+                    'style-loader',
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            minimize: !isDev,
+                            modules: true,
+                            localIdentName: isDev ? '[path]-[local]' : '[hash:base64:6]'
+                        }
+                    },
+                    'less-loader'
+                ]
+            },
             {
                 test: /\.js$/,
                 exclude: [path.join(process.cwd(), './node_modules/')],
@@ -81,59 +74,19 @@ const configBase = {
             }
         ]
     },
-    plugins: [
-        /* new HtmlWebpackPlugin({
-            template: path.join(process.cwd(), './src/index.html'),
-            filename: 'index.html',
-            inject: 'body',
-            minify: {
-                removeComments: false,
-                collapseWhitespace: false,
-                minifyJS: true,
-                minifyCSS: true
-            }
-        }) */
-    ]
-};
-
-const configComp = {
-    ...config,
-    externals: {
-        'react': '__react__',
-        'react-dom': '__reactDom__',
-        'axios': '__axios__'
-    },
-    entry: searchComp,
-    output: {
-        path: path.join(process.cwd(), './static/dist'),
-        publicPath: 'http://127.0.0.1:1235/dist',
-        library: '[name]',
-        libraryTarget: 'this',
-        filename: '[name].js',
-        chunkFilename: '[name].js'
-    },
-    module: {
-        rules: [
-            ...config.module.rules,
-            {
-                test: /\.js$/,
-                exclude: [path.join(process.cwd(), './node_modules/')],
-                loader: 'babel-loader',
-                options: {
-                    presets: [
-                        ['@babel/preset-env', { modules: false }],
-                        '@babel/preset-react'
-                    ],
-                    plugins: [
-                        ['@babel/plugin-proposal-decorators', { 'legacy': true }],
-                        '@babel/proposal-class-properties',
-                        '@babel/plugin-syntax-dynamic-import',
-                        '@babel/plugin-transform-object-assign'
-                    ]
-                }
-            }
+    plugins: ([
+        new CleanWebpackPlugin()
+    ]).concat(isDev ? [
+        new webpack.HotModuleReplacementPlugin()
+    ] : []),
+    resolve: {
+        extensions: [
+            '.js',
+            '.jsx'
         ]
-    }
+    },
+    mode: isDev ? 'development' : 'production',
+    devtool: 'source-map'
 };
 
-module.exports = [configBase, configComp];
+module.exports = config;
