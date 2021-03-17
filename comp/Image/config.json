@@ -10,11 +10,12 @@
             "prop": "src"
         }
     ],
-    "defaultStyles": {
+    "mergeStyles": {
         "position": "relative",
         "width": "180px",
-        "height": "180px",
-        "marginTop": "0px"
+        "height": "360px",
+        "marginLeft": "auto",
+        "marginRight": "auto"
     },
     "defaultProps": {
         "src": "http://r.photo.store.qq.com/psb?/V14dALyK4PrHuj/h50SMf97hSy.BJlJw31fagrw.NUaJD83gvydmoGN77w!/r/dLgAAAAAAAAA"
